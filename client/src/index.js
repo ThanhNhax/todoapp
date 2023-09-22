@@ -1,17 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import './styles.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Link from './pages/Link';
+import TodoApp from './components/TodoApp';
+import DemoApi from './components/DemoApi';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <BrowserRouter>
+    <Routes>
+      <Route path='/' element={<App />}>
+        <Route path='/todo-app' element={<TodoApp />} />
+        <Route path='/link' element={<Link />} />
+        <Route path='/demo-api' element={<DemoApi />} />
+        
+      </Route>
+    </Routes>
+  </BrowserRouter>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
