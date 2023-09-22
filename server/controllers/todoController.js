@@ -22,13 +22,13 @@ exports.createTable = (req, res) => {
 
 // create table
 exports.createTodo = (req, res) => {
-  const { first_name, last_name } = req.body;
+  const { firstName, lastName } = req.body;
   // truyen firstName, lastName thi nho cho vao dai '' chuyen kieu varchar trong mysql
   //   let q = `INSERT INTO todos (first_name, last_name)
   //             VALUES('${first_name}','${last_name}')`;
 
   const q = `INSERT INTO todos SET ?`;
-  db.query(q, { first_name, last_name }, (error) => {
+  db.query(q, { first_name: firstName, last_name: lastName }, (error) => {
     if (error) return res.status(500).json({ error });
     return res.status(200).json('INSERT INTO successfully!');
   });
@@ -74,6 +74,6 @@ exports.deleteTodoById = (req, res) => {
   WHERE id = ${id};`;
   db.query(q, (error, data) => {
     if (error) return res.status(500).json({ error });
-    return res.status(200).json({...data,message:'deleted successfully'});
+    return res.status(200).json({ ...data, message: 'deleted successfully' });
   });
 };
