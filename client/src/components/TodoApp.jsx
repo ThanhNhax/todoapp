@@ -1,20 +1,12 @@
-import React, { useCallback, useState } from 'react';
-import { Input, List } from 'antd';
+import React, { Children, useCallback, useEffect, useState } from 'react';
+import { Input, List, message } from 'antd';
 import TodoItem from './TodoItem';
+import { addTodo, getAllTodos, removeTodoApi } from '../api/api.todoapp';
 const TodoApp = () => {
-  const todo = {
-    id: 1,
-    title: 'Todo',
-    isCompleted: true,
-  };
   const [newTodo, setNewTodo] = useState('');
-  const [arrTodo, setArrTodo] = useState([
-    {
-      title: 'new Todo',
-      isCompleted: true,
-    },
-  ]);
+  const [arrTodo, setArrTodo] = useState([]);
   console.log({ arrTodo });
+
   const handleChangeTodo = useCallback(
     (e) => {
       setNewTodo(e.target.value);
@@ -22,21 +14,39 @@ const TodoApp = () => {
     [newTodo]
   );
 
-  const addTodo = (todo) => {
+  const handeleAddTodo = async (todo) => {
     if (todo) {
       setArrTodo([...arrTodo, { title: todo, isCompleted: false }]);
       setNewTodo('');
+      // call api addTodo len server
+      const data = await addTodo({ title: todo, isCompleted: false });
+      message.success(data);
     }
     return;
   };
-  const handeRemove = (id) => {
+  const handeRemove = async (id) => {
     const newArrTodo = [...arrTodo];
     newArrTodo.splice(id, 1);
     setArrTodo(newArrTodo);
+    // call api remove todo by id
+    const data = await removeTodoApi(id);
+    message.success(data.message);
   };
-  const handleChange  = (callback) => {
-    callback
-};
+  const handleTodoComplete = (todoId) => {
+    const updatedTodos = [...arrTodo];
+    const index = arrTodo.findIndex((todo) => todo.id === todoId);
+    const itemUpdate = { ...arrTodo[index] };
+    itemUpdate.is_completed = itemUpdate.is_completed === 1 ? 0 : 1;
+    updatedTodos[index] = itemUpdate;
+    console.log({ updatedTodos });
+    setArrTodo(updatedTodos);
+  };
+
+  useEffect(() => {
+    getAllTodos()
+      .then((todos) => setArrTodo(todos))
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <div className='todoContainer'>
       <h1>TODO App</h1>
@@ -44,7 +54,7 @@ const TodoApp = () => {
         placeholder='What needs to be done?'
         value={newTodo}
         onChange={handleChangeTodo}
-        onPressEnter={() => addTodo(newTodo)}
+        onPressEnter={() => handeleAddTodo(newTodo)}
       />
       <div
         style={{
@@ -59,7 +69,7 @@ const TodoApp = () => {
               key={index}
               todo={item}
               handleRemove={() => handeRemove(index)}
-              handleCheck={() => handleChange}
+              onComplete={handleTodoComplete}
             />
           )}
         />

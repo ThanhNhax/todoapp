@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Button, List, Checkbox } from 'antd';
 
-const TodoItem = ({ todo, handleRemove,handleCheck }) => {
-  const { title, isCompleted } = todo;
-  const [checked, setChecked] = useState(isCompleted);
-  console.log(title, isCompleted);
-  
+const TodoItem = ({ todo, handleRemove, onComplete }) => {
+  const { id, title, is_completed } = todo;
+  const [checked, setChecked] = useState(is_completed);
+  const handleToggleComplete = () => {
+    setChecked(!checked ? 1 : 0);
+    onComplete(id); // Gọi callback function để thông báo cho component cha
+  };
   return (
     <List.Item
       style={{
@@ -14,9 +16,7 @@ const TodoItem = ({ todo, handleRemove,handleCheck }) => {
         alignItems: 'center',
       }}
     >
-      <Checkbox checked={checked} onChange={handleCheck}>
-        Checkbox
-      </Checkbox>
+      <Checkbox checked={checked} onChange={handleToggleComplete} />
       {title}
       <Button danger onClick={handleRemove}>
         &times;

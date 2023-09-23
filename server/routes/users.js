@@ -1,9 +1,8 @@
 var express = require('express');
+const { showAllTodos } = require('../controllers/todoController');
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.get('/', showAllTodos);
 
 module.exports = router;
