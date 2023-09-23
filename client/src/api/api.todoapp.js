@@ -22,4 +22,5 @@ export const updateTodoApi = async (todo) => {
     `http://localhost:6060/api/todos/${todo.id}`,
     { is_completed: todo.is_completed }
   );
+  return result.data;
 };

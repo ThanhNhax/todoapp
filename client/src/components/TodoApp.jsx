@@ -1,7 +1,12 @@
 import React, { Children, useCallback, useEffect, useState } from 'react';
 import { Input, List, message } from 'antd';
 import TodoItem from './TodoItem';
-import { addTodo, getAllTodos, removeTodoApi } from '../api/api.todoapp';
+import {
+  addTodo,
+  getAllTodos,
+  removeTodoApi,
+  updateTodoApi,
+} from '../api/api.todoapp';
 const TodoApp = () => {
   const [newTodo, setNewTodo] = useState('');
   const [arrTodo, setArrTodo] = useState([]);
@@ -32,7 +37,7 @@ const TodoApp = () => {
     const data = await removeTodoApi(id);
     message.success(data.message);
   };
-  const handleTodoComplete = (todoId) => {
+  const handleTodoComplete = async (todoId) => {
     const updatedTodos = [...arrTodo];
     const index = arrTodo.findIndex((todo) => todo.id === todoId);
     const itemUpdate = { ...arrTodo[index] };
@@ -40,6 +45,14 @@ const TodoApp = () => {
     updatedTodos[index] = itemUpdate;
     console.log({ updatedTodos });
     setArrTodo(updatedTodos);
+    // all api patch todo
+    try {
+      const data = await updateTodoApi(itemUpdate);
+      console.log(data);
+      message.success('Checked for updates!');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
