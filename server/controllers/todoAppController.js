@@ -34,6 +34,20 @@ exports.deleteTodoById = (req, res) => {
   });
 };
 
+// patch todo by id
+exports.updateTodoById = (req, res) => {
+  const { id } = req.params;
+  const { is_completed } = req.body;
+  console.log(id, is_completed);
+  const q = `UPDATE todo
+  SET is_completed = ${is_completed}
+  WHERE id= ${id};`;
+  db.query(q, (error, data) => {
+    if (error) return res.status(500).json({ error });
+    return res.status(200).json(data);
+  });
+};
+
 // // update todos with
 // exports.updateTodo = (req, res) => {
 //   const { title,isComplate } = req.body;
