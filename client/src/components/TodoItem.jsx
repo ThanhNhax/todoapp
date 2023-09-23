@@ -18,7 +18,7 @@ const TodoItem = ({ todo, handleRemove, onComplete }) => {
     >
       <Checkbox checked={checked} onChange={handleToggleComplete} />
       {title}
-      <Button danger onClick={handleRemove}>
+      <Button danger onClick={() => handleRemove(id)}>
         &times;
       </Button>
     </List.Item>

@@ -1,4 +1,4 @@
-import React, { Children, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Input, List, message } from 'antd';
 import TodoItem from './TodoItem';
 import {
@@ -30,21 +30,25 @@ const TodoApp = () => {
     return;
   };
   const handeRemove = async (id) => {
+    console.log({ id });
     const newArrTodo = [...arrTodo];
-    newArrTodo.splice(id, 1);
+    const indexDelete = arrTodo.findIndex((todo) => todo.id === id);
+    newArrTodo.splice(indexDelete, 1);
     setArrTodo(newArrTodo);
     // call api remove todo by id
     const data = await removeTodoApi(id);
     message.success(data.message);
   };
   const handleTodoComplete = async (todoId) => {
-    const updatedTodos = [...arrTodo];
+    console.log(todoId);
     const index = arrTodo.findIndex((todo) => todo.id === todoId);
-    const itemUpdate = { ...arrTodo[index] };
-    itemUpdate.is_completed = itemUpdate.is_completed === 1 ? 0 : 1;
-    updatedTodos[index] = itemUpdate;
-    console.log({ updatedTodos });
-    setArrTodo(updatedTodos);
+    const itemUpdate = {
+      ...arrTodo[index],
+      is_completed: arrTodo[index].is_completed === 1 ? 0 : 1,
+    };
+    const arrUpdate = [...arrTodo];
+    arrUpdate[index] = itemUpdate;
+    setArrTodo(arrUpdate);
     // all api patch todo
     try {
       const data = await updateTodoApi(itemUpdate);
@@ -81,7 +85,7 @@ const TodoApp = () => {
             <TodoItem
               key={index}
               todo={item}
-              handleRemove={() => handeRemove(index)}
+              handleRemove={() => handeRemove(item.id)}
               onComplete={handleTodoComplete}
             />
           )}

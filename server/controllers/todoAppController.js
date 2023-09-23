@@ -26,8 +26,9 @@ exports.createTodo = (req, res) => {
 // delete todo by id
 exports.deleteTodoById = (req, res) => {
   const { id } = req.params;
-  const q = `DELETE FROM todo
-  WHERE id = ${id};`;
+  console.log({ id });
+  const q = `delete from todo
+  where id =${id}`;
   db.query(q, (error, data) => {
     if (error) return res.status(500).json({ error });
     return res.status(200).json({ ...data, message: 'deleted successfully' });
@@ -38,7 +39,6 @@ exports.deleteTodoById = (req, res) => {
 exports.updateTodoById = (req, res) => {
   const { id } = req.params;
   const { is_completed } = req.body;
-  console.log(id, is_completed);
   const q = `UPDATE todo
   SET is_completed = ${is_completed}
   WHERE id= ${id};`;
