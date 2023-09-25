@@ -38,10 +38,12 @@ exports.deleteTodoById = (req, res) => {
 // patch todo by id
 exports.updateTodoById = (req, res) => {
   const { id } = req.params;
-  const { is_completed } = req.body;
-  const q = `UPDATE todo
-  SET is_completed = ${is_completed}
-  WHERE id= ${id};`;
+  const { is_completed, title } = req.body;
+  console.log("updateTodoById: ",is_completed, title);
+  const q = `UPDATE todo 
+  set is_completed =${is_completed} ,
+  title = '${title}'
+  where id = ${id}`;
   db.query(q, (error, data) => {
     if (error) return res.status(500).json({ error });
     return res.status(200).json(data);

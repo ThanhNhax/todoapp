@@ -20,7 +20,7 @@ export const removeTodoApi = async (id) => {
 export const updateTodoApi = async (todo) => {
   const result = await axios.patch(
     `http://localhost:6060/api/todos/${todo.id}`,
-    { is_completed: todo.is_completed }
+    { id: todo.id, title: todo.title , is_completed:todo.is_completed}
   );
   return result.data;
 };

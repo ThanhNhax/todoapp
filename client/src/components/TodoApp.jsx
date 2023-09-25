@@ -58,6 +58,21 @@ const TodoApp = () => {
       console.log(err);
     }
   };
+  const handleEditTitles = async (val) => {
+    const indexEdit = arrTodo.findIndex((todo) => todo.id === val.id);
+    const updateArrTodo = [...arrTodo]
+    updateArrTodo[indexEdit] = val
+    console.log({ updateArrTodo });
+    setArrTodo(updateArrTodo);
+    // call api update todo
+    try {
+      const data = await updateTodoApi(val);
+      console.log(data);
+      message.success('Checked for updates!');
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     getAllTodos()
@@ -87,6 +102,7 @@ const TodoApp = () => {
               todo={item}
               handleRemove={() => handeRemove(item.id)}
               onComplete={handleTodoComplete}
+              onSubmitEditTitle={handleEditTitles}
             />
           )}
         />
