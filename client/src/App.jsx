@@ -4,10 +4,12 @@ import HeaderComponent from './components/header/HeaderComponent';
 function App() {
   return (
     <>
-      <HeaderComponent />
-      <div className='app'>
-        <Outlet/>
-      </div>
+      <header>
+        <HeaderComponent />
+      </header>
+      <main>
+        <Outlet />
+      </main>
     </>
   );
 }

@@ -2,11 +2,16 @@ import React from 'react';
 
 const HeaderComponent = () => {
   return (
-    <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
+    <nav
+      className='navbar navbar-expand-md navbar-ligth '
+      style={{ height: '100%', backgroundColor: 'orange' }}
+    >
       <div className='container'>
-        <a className='navbar-brand' href='/'>
-          Thanh Nhã
-        </a>
+        <h1 style={{fontWeight:'700'}} >
+          <a className='navbar-brand' href='/'>
+            Thanh Nhã
+          </a>
+        </h1>
         <button
           className='navbar-toggler d-lg-none'
           type='button'
@@ -46,7 +51,7 @@ const HeaderComponent = () => {
                   Todo App
                 </a>
                 <a className='dropdown-item' href='/demo-api'>
-                  demo api 
+                  demo api
                 </a>
               </div>
             </li>

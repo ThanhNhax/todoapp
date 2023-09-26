@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { Button, List, Checkbox, Input } from 'antd';
+import { Button, List, Checkbox, Input, Typography } from 'antd';
+const { Text } = Typography;
+import { DeleteOutlined } from '@ant-design/icons';
 
 const TodoItem = ({ todo, handleRemove, onComplete, onSubmitEditTitle }) => {
   const { id, title, is_completed } = todo;
-  const [checked, setChecked] = useState(is_completed);
   const [titleEdit, setTitleEdit] = useState(title);
   const [isEdit, setIsEdit] = useState(true);
 
-  const handleToggleComplete = () => {
-    setChecked(!checked ? 1 : 0);
-    onComplete(id); // Gọi callback function để thông báo cho component cha
+  const handleToggleComplete = (e) => {
+  
+    onComplete(e.target.checked, id); // Gọi callback function để thông báo cho component cha
   };
   const handleEdit = (e) => {
     setTitleEdit(e.target.value);
@@ -31,23 +32,42 @@ const TodoItem = ({ todo, handleRemove, onComplete, onSubmitEditTitle }) => {
         alignItems: 'center',
       }}
     >
-      <Checkbox checked={checked} onChange={handleToggleComplete} />
-
-      {isEdit ? (
-        <div style={{ cursor: 'pointer' }} onClick={() => setIsEdit(false)}>
-          {title}
-        </div>
-      ) : (
-        <Input
-          className='mx-4'
-          value={titleEdit}
-          onChange={handleEdit}
-          onPressEnter={submitEditTitle}
+      <div className='d-flex gap-4'>
+        <Checkbox
+          className='checkbox'
+          checked={is_completed}
+          onChange={handleToggleComplete}
         />
-      )}
 
-      <Button danger onClick={() => handleRemove(id)}>
-        &times;
+        {isEdit ? (
+          <Text
+            delete={is_completed}
+            disabled={is_completed}
+            // Nếu mà is_completed: là đã check rồi thì không cần gọi onclick
+            onClick={() =>!is_completed && setIsEdit(false)}
+          >
+            {title}
+          </Text>
+        ) : (
+          <Input
+            className='mx-4'
+            value={titleEdit}
+            onChange={handleEdit}
+            onPressEnter={submitEditTitle}
+          />
+        )}
+      </div>
+
+      <Button
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        danger
+        onClick={() => handleRemove(id)}
+      >
+        <DeleteOutlined />
       </Button>
     </List.Item>
   );
