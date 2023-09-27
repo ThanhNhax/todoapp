@@ -1,7 +1,9 @@
 import React from 'react';
 import FormAuth from '../components/form/FormAuth';
 import { Card } from 'antd';
-const { Meta } = Card;
+import Button from '../components/form/button/Button';
+import {AiFillGithub, AiFillGoogleCircle} from 'react-icons/ai'
+
 const Login = () => {
   const onFinish = (values) => {
     console.log('Success:', values);
@@ -16,6 +18,8 @@ const Login = () => {
       </h2>
       <Card className='shadow-xl mt-5'>
         <FormAuth onFinish={onFinish} onFinishFailed={onFinishFailed} />
+        {/* Đường kẻ ngang or continue with */}
+        
         <div className='mt-6 '>
           <div className='relative'>
             <div className='absolute inset-0 flex items-center'>
@@ -28,7 +32,15 @@ const Login = () => {
             </div>
           </div>
         </div>
-        
+
+        {/* Button login với phương thức khác */}
+        <div className="mt-6 flex gap-4" >
+          <Button type={'button'} wFull icon={AiFillGithub}></Button>
+          <Button type={'button'} wFull icon={AiFillGoogleCircle}></Button>
+        </div>
+        <div className="mt-6 text-center">
+          <span className='text-lg text-orange-400 cursor-pointer underline hover:text-orange-600' >Create an account</span>
+        </div>
       </Card>
     </div>
   );

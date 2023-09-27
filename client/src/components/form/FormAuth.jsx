@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Form, Input } from 'antd';
+import Button from './button/Button';
 
 const FormAuth = ({ onFinish, onFinishFailed }) => {
   return (
@@ -39,13 +40,7 @@ const FormAuth = ({ onFinish, onFinishFailed }) => {
         <Input.Password size='large' />
       </Form.Item>
 
-      <Button
-        className='w-full bg-orange-400 text-xl font-bold  h-full hover:bg-orange-600'
-        type='primary'
-        htmlType='submit'
-      >
-        Login
-      </Button>
+      <Button type={"submit"} onClick={()=>console.log(Login)} wFull >Login</Button>
     </Form>
   );
 };
