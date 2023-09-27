@@ -1,16 +1,39 @@
 import React from 'react';
+import { UserOutlined, DownOutlined, SmileOutlined } from '@ant-design/icons';
+import { Avatar, Space, Dropdown } from 'antd';
 
 const HeaderComponent = () => {
+  const items = [
+    {
+      key: '1',
+      label: (
+        <a
+          target='_blank'
+          rel='noopener noreferrer'
+          href='https://www.antgroup.com'
+        >
+          Đăng Nhâp
+        </a>
+      ),
+    },
+    {
+      key: '2',
+      label: (
+        <a
+          target='_blank'
+          rel='noopener noreferrer'
+          href='https://www.aliyun.com'
+        >
+          Đăng Xuất
+        </a>
+      ),
+    },
+  ];
   return (
-    <nav
-      className='navbar navbar-expand-md navbar-ligth '
-      style={{ height: '100%', backgroundColor: 'orange' }}
-    >
+    <nav className='navbar navbar-expand-md navbar-ligth '>
       <div className='container'>
-        <h1 style={{fontWeight:'700'}} >
-          <a className='navbar-brand' href='/'>
-            Thanh Nhã
-          </a>
+        <h1 style={{ fontWeight: '700' }}>
+          <a href='/'>Thanh Nhã</a>
         </h1>
         <button
           className='navbar-toggler d-lg-none'
@@ -56,19 +79,24 @@ const HeaderComponent = () => {
               </div>
             </li>
           </ul>
-          <form className='d-flex my-2 my-lg-0'>
-            <input
-              className='form-control me-sm-2'
-              type='text'
-              placeholder='Search'
-            />
-            <button
-              className='btn btn-outline-success my-2 my-sm-0'
-              type='submit'
+          <Space wrap size={16}>
+            <Dropdown
+              menu={{
+                items,
+              }}
             >
-              Search
-            </button>
-          </form>
+              <a onClick={(e) => e.preventDefault()}>
+                <Space>
+                  <Avatar
+                    style={{ boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px' }}
+                    size='large'
+                    icon={<UserOutlined />}
+                  />
+                </Space>
+              </a>
+            </Dropdown>
+            <span>Hello, Name</span>
+          </Space>
         </div>
       </div>
     </nav>
