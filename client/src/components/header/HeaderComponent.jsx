@@ -1,105 +1,108 @@
 import React from 'react';
 import { UserOutlined, DownOutlined, SmileOutlined } from '@ant-design/icons';
 import { Avatar, Space, Dropdown } from 'antd';
+import { AiOutlineMenu } from 'react-icons/ai';
 
 const HeaderComponent = () => {
-  const items = [
+  const itemsAvatar = [
     {
       key: '1',
-      label: (
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://www.antgroup.com'
-        >
-          Đăng Nhâp
-        </a>
-      ),
+      label: <a href='/auth'>Login</a>,
     },
     {
       key: '2',
       label: (
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://www.aliyun.com'
-        >
-          Đăng Xuất
+        <a rel='noopener noreferrer' href='/auth'>
+         Logout
         </a>
       ),
     },
   ];
+  const itemProject = [
+    {
+      key: '3',
+      label: <a href='/todo-app'>Todo App</a>,
+    },
+    
+  ];
+  const itemMenu = [
+    {
+      key: '1',
+      label: <a href='/'>Home</a>,
+    },
+    {
+      key: '2',
+      label: <a href='/about'>About</a>,
+    },
+    {
+      key: '3',
+      type: 'group',
+      label: 'My Projects',
+      children: [
+        {
+          key: '3-1',
+          label: <a href='/todo-app'>Todo App </a>,
+        },
+        // them router du an o day 
+      ],
+    },
+    {
+      key: '4',
+      label: <a href='/auth'>Logout</a>,
+    },
+   
+  ];
   return (
-    <nav className='navbar navbar-expand-md navbar-ligth '>
-      <div className='container'>
-        <h1 style={{ fontWeight: '700' }}>
-          <a href='/'>Thanh Nhã</a>
-        </h1>
-        <button
-          className='navbar-toggler d-lg-none'
-          type='button'
-          data-bs-toggle='collapse'
-          data-bs-target='#collapsibleNavId'
-          aria-controls='collapsibleNavId'
-          aria-expanded='false'
-          aria-label='Toggle navigation'
-        >
-          <span className='navbar-toggler-icon' />
-        </button>
-        <div className='collapse navbar-collapse' id='collapsibleNavId'>
-          <ul className='navbar-nav me-auto mt-2 mt-lg-0'>
-            <li className='nav-item'>
-              <a className='nav-link active' href='#' aria-current='page'>
-                Home <span className='visually-hidden'>(current)</span>
-              </a>
+    <section className='container mx-auto py-6 flex justify-between items-center gap-10 text-white text-xl '>
+      <h1 className='font-bold text-3xl uppercase'>
+        <a href=''>Thanh Nhã</a>
+      </h1>
+      <article className='hidden flex-1 md:flex md:justify-between md:items-center'>
+        <nav className=''>
+          <ul className='flex justify-start items-center gap-4'>
+            <li className='relative opacity-70 hover:opacity-100 transition hover:after:absolute hover:after:w-full hover:after:h-1 hover:after:bottom-[-5px] hover:after:inset-x-0 hover:after:bg-contrast hover:after:animate-wiggle '>
+              <a href=''>Home</a>
             </li>
-            <li className='nav-item'>
-              <a className='nav-link' href='/link'>
-                Link
-              </a>
+            <li className='relative opacity-70 hover:opacity-100 transition hover:after:absolute hover:after:w-full hover:after:h-1 hover:after:bottom-[-5px] hover:after:inset-x-0 hover:after:bg-contrast hover:after:animate-wiggle '>
+              <a href='/about'>About</a>
             </li>
-            <li className='nav-item dropdown'>
-              <a
-                className='nav-link dropdown-toggle'
-                href='#'
-                id='dropdownId'
-                data-bs-toggle='dropdown'
-                aria-haspopup='true'
-                aria-expanded='false'
-              >
-                Các app demo
-              </a>
-              <div className='dropdown-menu' aria-labelledby='dropdownId'>
-                <a className='dropdown-item' href='/todo-app'>
-                  Todo App
+            <li className='relative opacity-70 hover:opacity-100 transition hover:after:absolute hover:after:w-full hover:after:h-1 hover:after:bottom-[-5px] hover:after:inset-x-0 hover:after:bg-contrast hover:after:animate-wiggle '>
+              <Dropdown menu={{ items: itemProject }}>
+                <a onClick={(e) => e.preventDefault()}>
+                  <Space className='cursor-pointer'>
+                    My Project
+                    <DownOutlined />
+                  </Space>
                 </a>
-                <a className='dropdown-item' href='/demo-api'>
-                  demo api
-                </a>
-              </div>
+              </Dropdown>
             </li>
           </ul>
-          <Space wrap size={16}>
-            <Dropdown
-              menu={{
-                items,
-              }}
-            >
-              <a onClick={(e) => e.preventDefault()}>
-                <Space>
-                  <Avatar
-                    style={{ boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px' }}
-                    size='large'
-                    icon={<UserOutlined />}
-                  />
-                </Space>
-              </a>
-            </Dropdown>
-            <span>Hello, Name</span>
-          </Space>
-        </div>
-      </div>
-    </nav>
+        </nav>
+        <article className='flex justify-between items-center gap-2'>
+          <Dropdown menu={{ items:itemsAvatar }}>
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                <Avatar
+                  size={'large'}
+                  icon={<UserOutlined />}
+                  className='cursor-pointer'
+                />
+              </Space>
+            </a>
+          </Dropdown>
+          <span>Hello, Name </span>
+        </article>
+      </article>
+      <article className='md:hidden'>
+        <Dropdown menu={{ items: itemMenu }}>
+          <a onClick={(e) => e.preventDefault()}>
+            <Space>
+              <AiOutlineMenu size={'32'} />
+            </Space>
+          </a>
+        </Dropdown>
+      </article>
+    </section>
   );
 };
 

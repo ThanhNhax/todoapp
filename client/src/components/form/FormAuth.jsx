@@ -40,7 +40,7 @@ const FormAuth = ({ onFinish, onFinishFailed }) => {
         <Input.Password size='large' />
       </Form.Item>
 
-      <Button type={"submit"} onClick={()=>console.log(Login)} wFull >Login</Button>
+      <Button type={"submit"} onClick={()=>console.log("Login")} wFull >Login</Button>
     </Form>
   );
 };

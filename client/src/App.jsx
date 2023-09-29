@@ -4,7 +4,7 @@ import HeaderComponent from './components/header/HeaderComponent';
 function App() {
   return (
     <>
-      <header>
+      <header className='bg-primary'>
         <HeaderComponent />
       </header>
       <main>
