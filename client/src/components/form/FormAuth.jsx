@@ -2,7 +2,8 @@ import React from 'react';
 import { Form, Input } from 'antd';
 import Button from './button/Button';
 
-const FormAuth = ({ onFinish, onFinishFailed }) => {
+const FormAuth = ({ onFinish, onFinishFailed, isRegister }) => {
+  console.log(isRegister)
   return (
     <Form
       className='w-[400px]'
@@ -14,9 +15,23 @@ const FormAuth = ({ onFinish, onFinishFailed }) => {
       onFinishFailed={onFinishFailed}
       autoComplete='off'
     >
+      {isRegister && (
+        <Form.Item
+          label='Name'
+          name='name'
+          rules={[
+            {
+              required: true,
+              message: 'Please input your name!',
+            },
+          ]}
+        >
+          <Input size='large' />
+        </Form.Item>
+      )}
       <Form.Item
-        label='Username'
-        name='username'
+        label='Email'
+        name='email'
         rules={[
           {
             required: true,
@@ -24,7 +39,7 @@ const FormAuth = ({ onFinish, onFinishFailed }) => {
           },
         ]}
       >
-        <Input size='large' />
+        <Input type='email' size='large' />
       </Form.Item>
 
       <Form.Item
@@ -40,7 +55,9 @@ const FormAuth = ({ onFinish, onFinishFailed }) => {
         <Input.Password size='large' />
       </Form.Item>
 
-      <Button type={"submit"} onClick={()=>console.log("Login")} wFull >Login</Button>
+      <Button type={'submit'} wFull>
+        {isRegister?"Register":'Login'}
+      </Button>
     </Form>
   );
 };
