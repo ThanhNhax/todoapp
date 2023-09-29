@@ -7,7 +7,7 @@ function App() {
       <header className='bg-primary'>
         <HeaderComponent />
       </header>
-      <main>
+      <main className='px-4'>
         <Outlet />
       </main>
     </>

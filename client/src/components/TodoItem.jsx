@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Button, List, Checkbox, Input, Typography } from 'antd';
+import {List, Checkbox, Input, Typography } from 'antd';
 const { Text } = Typography;
 import { DeleteOutlined } from '@ant-design/icons';
+import Button from '../components/form/button/Button'
 
 const TodoItem = ({ todo, handleRemove, onComplete, onSubmitEditTitle }) => {
   const { id, title, is_completed } = todo;
@@ -9,7 +10,6 @@ const TodoItem = ({ todo, handleRemove, onComplete, onSubmitEditTitle }) => {
   const [isEdit, setIsEdit] = useState(true);
 
   const handleToggleComplete = (e) => {
-  
     onComplete(e.target.checked, id); // Gọi callback function để thông báo cho component cha
   };
   const handleEdit = (e) => {
@@ -25,16 +25,10 @@ const TodoItem = ({ todo, handleRemove, onComplete, onSubmitEditTitle }) => {
     setIsEdit(true);
   };
   return (
-    <List.Item
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}
-    >
-      <div className='d-flex gap-4'>
-        <Checkbox
-          className='checkbox'
+    <List.Item>
+      <div className=' flex gap-2'>
+        <Checkbox 
+          className='checked'
           checked={is_completed}
           onChange={handleToggleComplete}
         />
@@ -44,13 +38,12 @@ const TodoItem = ({ todo, handleRemove, onComplete, onSubmitEditTitle }) => {
             delete={is_completed}
             disabled={is_completed}
             // Nếu mà is_completed: là đã check rồi thì không cần gọi onclick
-            onClick={() =>!is_completed && setIsEdit(false)}
+            onClick={() => !is_completed && setIsEdit(false)}
           >
             {title}
           </Text>
         ) : (
           <Input
-            className='mx-4'
             value={titleEdit}
             onChange={handleEdit}
             onPressEnter={submitEditTitle}
@@ -58,15 +51,7 @@ const TodoItem = ({ todo, handleRemove, onComplete, onSubmitEditTitle }) => {
         )}
       </div>
 
-      <Button
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-        danger
-        onClick={() => handleRemove(id)}
-      >
+      <Button danger onClick={() => handleRemove(id)}>
         <DeleteOutlined />
       </Button>
     </List.Item>

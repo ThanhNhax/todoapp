@@ -7,4 +7,17 @@
   margin: 0;
   padding: 0;
 }
-
+:root {
+  --primary: #fab973;
+}
+/* sua css mac dinh cua antd phan checked */
+.ant-checkbox-inner {
+  border-color: var(--primary) !important   ;
+  background-color: #fff !important ;
+}
+.ant-checkbox-inner::after {
+  border-color: var(--primary) !important;
+}
+.checkbox:hover .ant-checkbox-inner {
+  border-color: var(--primary) !important;
+}

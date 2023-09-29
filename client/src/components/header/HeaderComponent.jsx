@@ -53,7 +53,7 @@ const HeaderComponent = () => {
    
   ];
   return (
-    <section className='container mx-auto py-6 flex justify-between items-center gap-10 text-white text-xl '>
+    <section className='container mx-auto px-4 py-6 flex justify-between items-center gap-10 text-white text-xl '>
       <h1 className='font-bold text-3xl uppercase'>
         <a href=''>Thanh Nhã</a>
       </h1>

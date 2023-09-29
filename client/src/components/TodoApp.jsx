@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Input, List, message } from 'antd';
+import { Card, Input, List, message } from 'antd';
 import TodoItem from './TodoItem';
 import {
   addTodo,
@@ -94,40 +94,33 @@ const TodoApp = () => {
     return 'Keep it going 💪🏻';
   };
   return (
-    <div className='app-todo'>
-      <div className='todoContainer'>
-        <h1>
-          {numberTodoDone}/{numberComplete} Complete &#129470;
-        </h1>
-        <h2>{getMessage()}</h2>
-        <Input
-          className='input-form py-2'
-          placeholder='What needs to be done?'
-          value={newTodo}
-          onChange={handleChangeTodo}
-          onPressEnter={() => handeleAddTodo(newTodo)}
+    <Card className='container mx-auto w-full mt-4 md:max-w-xl text-center shadow-md'>
+      <h1 className='text-2xl font-bold'>
+        {numberTodoDone}/{numberComplete} Complete &#129470;
+      </h1>
+      <h2 className='text-xl font-medium mb-4'>{getMessage()}</h2>
+      <Input
+        placeholder='What needs to be done?'
+        value={newTodo}
+        onChange={handleChangeTodo}
+        onPressEnter={() => handeleAddTodo(newTodo)}
+      />
+      <div className='mt-4'>
+        <List
+          bordered
+          dataSource={arrTodo}
+          renderItem={(item, index) => (
+            <TodoItem
+              key={index}
+              todo={item}
+              handleRemove={() => handeRemove(item.id)}
+              onComplete={handleTodoComplete}
+              onSubmitEditTitle={handleEditTitles}
+            />
+          )}
         />
-        <div
-          style={{
-            marginTop: '24px',
-          }}
-        >
-          <List
-            bordered
-            dataSource={arrTodo}
-            renderItem={(item, index) => (
-              <TodoItem
-                key={index}
-                todo={item}
-                handleRemove={() => handeRemove(item.id)}
-                onComplete={handleTodoComplete}
-                onSubmitEditTitle={handleEditTitles}
-              />
-            )}
-          />
-        </div>
       </div>
-    </div>
+    </Card>
   );
 };
 
