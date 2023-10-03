@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { axiosConfig } from '../utils/configAxios/configAxios';
 export const getAllTodos = async () => {
-  const result = await axios.get('http://localhost:6060/api/todos');
+  const result = await axiosConfig.get('/todos');
   return result.data;
 };
 

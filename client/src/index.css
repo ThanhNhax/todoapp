@@ -21,3 +21,7 @@
 .checkbox:hover .ant-checkbox-inner {
   border-color: var(--primary) !important;
 }
+
+.ant-spin-dot-item{
+  background-color:var(--primary) !important;
+}

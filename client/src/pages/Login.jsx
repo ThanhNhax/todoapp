@@ -1,19 +1,43 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FormAuth from '../components/form/FormAuth';
 import { Card, message } from 'antd';
 import Button from '../components/form/button/Button';
 import { AiFillGithub, AiFillGoogleCircle } from 'react-icons/ai';
 import { loginApi, registerApi } from '../api/api.users';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const loginUser = async (val) => {
-    try {
-      const data = await loginApi(val);
-      data.token && message.success("Logged in successfully!");
-    } catch (e) {
-      message.error(e);
-    }
+  const navigate = useNavigate();
+  const [isRegister, setIsRegister] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const loginUser = (val) => {
+    setIsLoading(true);
+    loginApi(val)
+      .then((data) => {
+        localStorage.setItem(
+          process.env.REACT_APP_KEY_LOCAL,
+          JSON.stringify(data)
+        );
+        localStorage.setItem('token',JSON.stringify(data.token))
+        data.token &&
+          message.open({
+            content: 'Login successful!',
+            duration: 2,
+            type: 'success',
+          });
+
+        setTimeout(() => navigate('/todo-app'), 2000);
+      })
+      .catch((err) => {
+        console.log(err);
+        message.error('Account Not Found!');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
+
   const onFinish = async (values) => {
     console.log('Success:', values);
     //if value co key name thi call api register
@@ -29,14 +53,16 @@ const Login = () => {
       }
     }
     // login
-    loginUser(values)
+    loginUser(values);
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-  const [isRegister, setIsRegister] = useState(true);
-  console.log('isRegister:', isRegister);
+
+  useEffect(() => {
+    if (localStorage.getItem('user')) navigate('/');
+  }, []);
   return (
     <div className='w-full h-full flex flex-col justify-center items-center mt-20'>
       <h2 className='text-3xl font-bold my-5 text-center'>
@@ -47,6 +73,7 @@ const Login = () => {
           isRegister={!isRegister}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
+          isLoading={isLoading}
         />
         {/* Đường kẻ ngang or continue with */}
 
