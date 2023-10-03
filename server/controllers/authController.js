@@ -1,14 +1,13 @@
 const db = require('../db/database');
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
+
 const jwt = require('jsonwebtoken');
-const secretKey = 'thanhnhaxngulam';
 
 class AuthController {
   register(req, res) {
     const { email, password, name } = req.body;
     //  hash: bam cai password ra
-    bcrypt.hash(password, saltRounds, (err, hash) => {
+    bcrypt.hash(password, process.env.SALTROUNDS, (err, hash) => {
       // Store hash in your password DB.
       if (err) return res.status(500).json({ error: err });
       // query : db để tạo users
@@ -25,7 +24,6 @@ class AuthController {
   login(req, res) {
     const { email, password } = req.body;
     //hash password
-
     //query db
     const q = `select * from users
     where email = '${email}'`;
@@ -39,8 +37,10 @@ class AuthController {
         if (err) return res.status(500).json({ error: err });
         if (data) {
           //tao ra ma jwt
-          const payload = 'thanhnha';
-          const token = jwt.sign(payload, secretKey);
+          const token = jwt.sign(
+            { email: result[0].email },
+            process.env.SECRRTKRY
+          );
           return res.status(200).json({ token, email: result[0].email });
         }
       });

@@ -63,8 +63,9 @@ const HeaderComponent = () => {
     const flag = JSON.parse(
       localStorage.getItem(process.env.REACT_APP_KEY_LOCAL)
     );
-    if (!flag) navigate('/auth');
-    setUser({ email: flag.email });
+    console.log({flag})
+    if (!flag) return navigate('/auth');
+    setUser({ email: flag?.email });
     return flag.email;
   };
 

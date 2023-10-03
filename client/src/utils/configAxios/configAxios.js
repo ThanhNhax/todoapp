@@ -1,4 +1,8 @@
 import axios from 'axios';
+import { createBrowserHistory } from 'history';
+
+// Tạo đối tượng history
+const history = createBrowserHistory();
 
 const getStore = (key) => {
   const json = localStorage.getItem(key);
@@ -43,20 +47,16 @@ axiosConfig.interceptors.request.use(
 // Cấu hình kết quả trả về
 axiosConfig.interceptors.response.use(
   (response) => {
-    console.log(response);
     return response;
   },
   (err) => {
-    const originalRequest = error.config;
-    console.log(err.response.status);
     if (err.response.status === 400 || err.response.status === 404) {
-      // history.push('/');
-      console.log("status : 400 || 404");
+      history.push('/auth');
       return Promise.reject(err);
     }
     if (err.response.status === 401 || err.response.status === 403) {
       console.log('Token không hợp lệ ! Vui lòng đăng nhập lại !');
-      // history.push('/login');
+      history.push('/auth');
       return Promise.reject(err);
     }
   }

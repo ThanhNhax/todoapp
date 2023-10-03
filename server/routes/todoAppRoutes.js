@@ -1,11 +1,12 @@
 const express = require('express');
 const { showAllTodos, createTodo, deleteTodoById, updateTodoById } = require('../controllers/todoAppController');
+const  middwareController = require('../controllers/middwareController');
 
 const router = express.Router();
 
 //routes
 
-router.get('/', showAllTodos);
+router.get('/',middwareController.checkToken,  showAllTodos);
 router.post('/create', createTodo);
 router.delete('/:id', deleteTodoById);
 router.patch('/:id', updateTodoById)
