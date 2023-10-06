@@ -1,15 +1,9 @@
 import axios from 'axios';
-import { createBrowserHistory } from 'history';
-
-// Tạo đối tượng history
-const history = createBrowserHistory();
-
 const getStore = (key) => {
   const json = localStorage.getItem(key);
   if (json) return JSON.parse(json);
   return null;
 };
-
 
 export const axiosConfig = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
@@ -23,7 +17,7 @@ axiosConfig.interceptors.request.use(
     //Cấu hình tất cả header add thêm thuộc tính Authorization
     configs.headers = {
       ...configs.headers,
-      ['Authorization']: `Bearer ${getStore("token")}`,
+      ['Authorization']: `Bearer ${getStore('token')}`,
     };
 
     return configs;
@@ -50,14 +44,6 @@ axiosConfig.interceptors.response.use(
     return response;
   },
   (err) => {
-    if (err.response.status === 400 || err.response.status === 404) {
-      history.push('/auth');
-      return Promise.reject(err);
-    }
-    if (err.response.status === 401 || err.response.status === 403) {
-      console.log('Token không hợp lệ ! Vui lòng đăng nhập lại !');
-      history.push('/auth');
-      return Promise.reject(err);
-    }
+    return err.response.status;
   }
 );

@@ -10,7 +10,7 @@ import Login from './pages/Login';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>
+  <BrowserRouter >
     <Routes>
       <Route path='/' element={<App />}>
         <Route path='/todo-app' element={<TodoApp />} />
