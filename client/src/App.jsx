@@ -1,23 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
+import UserContext from './hooks/UserContext';
 const HeaderComponent = React.lazy(() =>
   import('./components/header/HeaderComponent')
 );
 function App() {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
   useEffect(() => {
-    if (!localStorage.getItem(process.env.REACT_APP_KEY_LOCAL)) {
+    const user = localStorage.getItem(process.env.REACT_APP_KEY_LOCAL);
+    if (!user) {
       navigate('/auth');
     }
+    setUser(user);
   }, []);
   return (
     <>
-      <header className='bg-primary'>
-        <HeaderComponent />
-      </header>
-      <main className='px-4'>
-        <Outlet />
-      </main>
+      <UserContext.Provider value={user}>
+        <header className='bg-primary'>
+          <HeaderComponent />
+        </header>
+        <main className='px-4'>
+          <Outlet />
+        </main>
+      </UserContext.Provider>
     </>
   );
 }

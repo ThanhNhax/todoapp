@@ -1,11 +1,8 @@
 import React from 'react';
 import { Form, Input } from 'antd';
 import Button from './button/Button';
-import { AiOutlineLoading3Quarters } from 'react-icons/ai';
-import Loading from '../loading/Loading';
 
 const FormAuth = ({ onFinish, onFinishFailed, isRegister, isLoading }) => {
-  console.log(isLoading);
   return (
     <Form
       className='w-[400px]'
@@ -56,11 +53,10 @@ const FormAuth = ({ onFinish, onFinishFailed, isRegister, isLoading }) => {
       >
         <Input.Password size='large' />
       </Form.Item>
-     
-        <Button type={'submit'} wFull disabled={isLoading}>
-          {isRegister ? 'Register' : 'Login'}
-        </Button>
-       
+
+      <Button type={'submit'} wFull disabled={isLoading}>
+        {isRegister ? 'Register' : 'Login'}
+      </Button>
     </Form>
   );
 };

@@ -1,17 +1,18 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Card, Input, List, message } from 'antd';
 import TodoItem from './TodoItem';
 import {
   addTodo,
-  getAllTodos,
+  getAllTodosByUser,
   removeTodoApi,
   updateTodoApi,
 } from '../api/api.todoapp';
+import UserContext from '../hooks/UserContext';
 const TodoApp = () => {
   const [newTodo, setNewTodo] = useState('');
   const [arrTodo, setArrTodo] = useState([]);
   console.log({ arrTodo });
-
+  const user = JSON.parse(useContext(UserContext));
   const handleChangeTodo = useCallback(
     (e) => {
       setNewTodo(e.target.value);
@@ -20,14 +21,29 @@ const TodoApp = () => {
   );
 
   const handeleAddTodo = async (todo) => {
-    if (todo) {
-      setArrTodo([...arrTodo, { title: todo, isCompleted: false }]);
-      setNewTodo('');
-      // call api addTodo len server
-      const data = await addTodo({ title: todo, isCompleted: false });
-      message.success(data);
+    try {
+      if (todo) {
+        arrTodo
+          ? setArrTodo([
+              ...arrTodo,
+              { title: todo, isCompleted: false, userId: user.id },
+            ])
+          : setArrTodo(
+              new Array({ title: todo, isCompleted: false, userId: user.id })
+            );
+
+        setNewTodo('');
+        // call api addTodo len server
+        const data = await addTodo({
+          title: todo,
+          isCompleted: false,
+          userId: user.id,
+        });
+        message.success(data);
+      }
+    } catch (e) {
+      console.log({ error: e });
     }
-    return;
   };
   const handeRemove = async (id) => {
     console.log({ id });
@@ -39,9 +55,8 @@ const TodoApp = () => {
     const data = await removeTodoApi(id);
     message.success(data.message);
   };
-  const handleTodoComplete = async (check, todoId) => {
-    console.log(todoId);
-    const index = arrTodo.findIndex((todo) => todo.id === todoId);
+  const handleTodoComplete = async (check, todoCheck) => {
+    const index = arrTodo.findIndex((todo) => todo.id === todoCheck.id);
     const itemUpdate = {
       ...arrTodo[index],
       is_completed: check,
@@ -51,9 +66,11 @@ const TodoApp = () => {
     setArrTodo(arrUpdate);
     // all api patch todo
     try {
-      const data = await updateTodoApi(itemUpdate);
-      console.log(data);
+      await updateTodoApi(itemUpdate);
       message.success('Checked for updates!');
+      getAllTodosByUser()
+        .then((todos) => setArrTodo(todos))
+        .catch((err) => console.log(err));
     } catch (err) {
       console.log(err);
     }
@@ -75,13 +92,15 @@ const TodoApp = () => {
   };
 
   useEffect(() => {
-    getAllTodos()
+    getAllTodosByUser()
       .then((todos) => setArrTodo(todos))
       .catch((err) => console.log(err));
   }, []);
 
-  const numberTodoDone = arrTodo.filter((todo) => todo.is_completed).length;
-  const numberComplete = arrTodo.length;
+  const numberTodoDone = arrTodo
+    ? arrTodo.filter((todo) => todo.is_completed).length
+    : 0;
+  const numberComplete = arrTodo ? arrTodo.length : 0;
 
   const getMessage = () => {
     const percentage = (numberTodoDone / numberComplete) * 100;

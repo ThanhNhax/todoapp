@@ -63,10 +63,9 @@ const HeaderComponent = () => {
     const flag = JSON.parse(
       localStorage.getItem(process.env.REACT_APP_KEY_LOCAL)
     );
-    console.log({flag})
+    console.log({ flag }, !!flag);
     if (!flag) return navigate('/auth');
-    setUser({ email: flag?.email });
-    return flag.email;
+    setUser({ ...flag });
   };
 
   //Call user
@@ -100,7 +99,7 @@ const HeaderComponent = () => {
           </ul>
         </nav>
         <article className='flex justify-between items-center gap-2'>
-          <Suspense fallback={<Loading/>}>
+          <Suspense fallback={<Loading />}>
             <Dropdown menu={{ items: itemsAvatar }}>
               <Link>
                 <Space>
